@@ -1,14 +1,16 @@
 Slide Navigation
 ================
 
-This is an attempt to make a Facebook-like navigation panel for Sencha Touch 2.
-To see a current working demo, visit `this page`_ on a mobile device.  To see the
-navigation menu in the example, "flick" the toolbar (at the top) to the right; the
-opposite action can be used to close the menu.
+This is an attempt to make a Facebook-like navigation panel for Sencha Touch 2,
+however with a difference that the menu items are drowdown.
 
-.. _`this page`: http://wnielson.github.com/sencha-SlideNavigation/
+We have to NOUT yet uploaded a demo.
+When you try it on your system, navigation menu in the example, "flick" the 
+toolbar (at the top) to the right; the opposite action can be used to close 
+the menu.
 
-This is a work in progress and still needs quite a bit of work, but it is usable.
+This is a work in progress. You may have to look into the code or ask us to 
+modify some of the behaviors.
 
 Getting Started
 ---------------
@@ -59,8 +61,5 @@ So far this has been tested on:
 Documentation
 -------------
 
-You can read the docs online here_.
-
-.. _here: http://wnielson.github.com/sencha-SlideNavigation/docs/#!/api/Ext.ux.slidenavigation.View
-
+Please find it in Wiki.
 	
