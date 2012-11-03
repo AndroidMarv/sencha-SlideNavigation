@@ -60,15 +60,6 @@ Ext.define("SlideNavigationExample.view.Main", {
         },
         
         /**
-         *  Example of how to re-order the groups.
-         */
-        groups: {
-            'Group 1': 1,
-            'Group 2': 3,
-            'Group 3': 2
-        },
-        
-        /**
          *  These are the default values to apply to the items within the
          *  container.
          */
@@ -77,9 +68,13 @@ Ext.define("SlideNavigationExample.view.Main", {
             xtype: 'container'
         },
         
-        items: [{
+        items: [
+        {
+          title: 'Group 1',
+          items: [
+          {
             title: 'Item 1',
-            group: 'Group 1',
+            leaf: true,
             
             /**
              *  Here's an example of how we can add a button into
@@ -97,9 +92,9 @@ Ext.define("SlideNavigationExample.view.Main", {
                 xtype: 'panel',
                 html: '<img src="resources/images/guide.jpg" width="100%" />'
             }]
-        },{
+          },{
             title: 'Item 2',
-            group: 'Group 1',
+            leaf: true,
             /**
              *  Here's an example of how an item can simply execute a
              *  function, rather than display a new component.
@@ -107,9 +102,13 @@ Ext.define("SlideNavigationExample.view.Main", {
             handler: function() {
                 Ext.Msg.alert('Item 2', 'You clicked Item 2.');
             }
+          } ],
         },{
+          title: 'Group 2',
+          items: [ 
+          {
             title: 'Item 3',
-            group: 'Group 2',
+            leaf: true,
             items: [{
                 xtype: 'toolbar',
                 title: 'Item 3',
@@ -123,7 +122,7 @@ Ext.define("SlideNavigationExample.view.Main", {
             }]
         },{
             title: 'Item 4',
-            group: 'Group 2',
+            leaf: true,
             slideButton: {
                 selector: 'toolbar',
                 iconMask: true,
@@ -141,7 +140,7 @@ Ext.define("SlideNavigationExample.view.Main", {
             }]
         },{
             title: 'Item 5',
-            group: 'Group 2',
+            leaf: true,
             slideButton: {
                 selector: 'container',
                 iconMask: false,
@@ -151,10 +150,13 @@ Ext.define("SlideNavigationExample.view.Main", {
                 style: 'padding: 10px',
                 html: '<h2>Item 5</h2><p>Here we\'ve added a slideButton to a location other than a toolbar with text instead of an icon.</p>'
             }]
-            
+          } ],
         },{
+          title: 'Group 3',
+          items: [ 
+          {
             title: 'Item 6',
-            group: 'Group 3',
+            leaf: true,
             items: [{
                 xtype: 'toolbar',
                 title: 'Item 6',
@@ -162,9 +164,9 @@ Ext.define("SlideNavigationExample.view.Main", {
             },{
                 html: '<h1>Item 6</h1>'
             }]
-        },{
+          },{
             title: 'Item 7',
-            group: 'Group 3',
+            leaf: true,
             items: [{
                 xtype: 'toolbar',
                 title: 'Item 7',
@@ -172,10 +174,9 @@ Ext.define("SlideNavigationExample.view.Main", {
             },{
                 html: '<h1>Item 7</h1>'
             }]
-        },{
+          },{
             title: 'Item 8',
-            group: 'Group 3',
-            order: 0,
+            leaf: true,
             items: [{
                 xtype: 'toolbar',
                 title: 'Item 8',
@@ -248,5 +249,6 @@ Ext.define("SlideNavigationExample.view.Main", {
                 }]
             }]
         }]
+      }]
     }
 });

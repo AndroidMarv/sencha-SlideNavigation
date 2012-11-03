@@ -15,7 +15,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
         'Ext.ModelManager',
         'Ext.Toolbar',
         'Ext.data.Model',
-        'Ext.data.Store',
+        'Ext.data.TreeStore',
         'Ext.dataview.List',
     ],
     
@@ -28,15 +28,13 @@ Ext.define('Ext.ux.slidenavigation.View', {
         list: {
             width: 250,
             maxDrag: null,
-            itemTpl: '{title}',
-            grouped: true,
             items: [{
                 xtype: 'toolbar',
                 docked: 'top',
                 ui: 'light'
             }]
         },
-        
+
         /**
          * @cfg {Object} container Configuration for the container
          */
@@ -49,23 +47,6 @@ Ext.define('Ext.ux.slidenavigation.View', {
          * can define the order of the items by defining an 'order' parameter.
          */        
         items: [],
-        
-        /**
-         * @cfg {Object} groups Mapping of group name to order.  For example,
-         * say you have defined two groups; "Group 1" and "Group 2".  By default
-         * these will be presented in the list in that order, since
-         * 'Group 1' > 'Group 2'.  This option allows you to change the ordering,
-         * like so:
-         *
-         *  groups: {
-         *    'Group 1': 2
-         *    'Group 2': 1
-         *  }
-         *
-         *  You should use integers, starting with 1, as the ordering value.
-         *  By default groups are ordered by their name.
-         */
-        groups: {},
         
         /**
          * @cfg {Object} defaults An object of default values to apply to any Ext
@@ -102,35 +83,71 @@ Ext.define('Ext.ux.slidenavigation.View', {
          * @cfg {Boolean} closeOnSelect Whether or not to automatically close the container
          * when an item in the list is selected.  Default is true.
          */
-        closeOnSelect: true
+        closeOnSelect: true,
+
+        /**
+         * @cfg {String} headerItemTpl
+         */
+        headerItemTpl: [
+            '<div style="min-height: 2.6em; padding: 0.4em 0.2em;">',
+                '<tpl if="this.isExpanded(values)">',
+                  '<span class="x-button x-button-plain">',
+                    '<span class="x-button-icon arrow_down x-icon-mask"',
+                    ' style="margin-right:0.4em; background-color: #cacaca !important; background-image: none !important;"></span>',
+                    '<span style="color:#00bbe8;">{title}</span>',
+                  '</span>',
+                '<tpl else>',
+                  '<span class="x-button x-button-plain">',
+                    '<span class="x-button-icon arrow_right x-icon-mask"',
+                    ' style="margin-right:0.4em; background-color: #cacaca !important; background-image: none !important;"></span>',
+                    '<span style="color:#00bbe8;">{title}</span>',
+                  '</span>',
+                '<tpl>',
+            '</div>'
+        ].join(''),
+
+        /**
+         * @cfg {String} contentItemTpl
+         */
+        contentItemTpl: [
+            '<div style="min-height: 2.6em; padding: 0.65em 0.8em;',
+            ' /*border-bottom: 1px solid #dedede;*/">',
+                '{title}',
+            '</div>'
+        ].join(''),
+
+        /**
+         * @cfg {Boolean} defaultExpanded
+         */
+        defaultExpanded: false,
+        useAnimation: true,
+
     },
         
     initConfig: function() {
-        var me = this;
-        
-        me._indexCount = 0;
-        
+       var me = this;
+
+       me._indexCount = 0;
+       me.assignIndexes(this.config.items);
+
         /**
          *  Create the store.
          */
-        me.store = Ext.create('Ext.data.Store', {
+        me.store = Ext.create('Ext.data.TreeStore', {
             model: me.getModel(),
-            sorters: 'order',
-            grouper: {
-                property: 'group',
-                sortProperty: 'groupOrder'
-            }
+            defaultRootProperty: 'items',
+            root: { items: this.config.items, },
         });
-        
-        /**
+  
+         /**
          *  Add the items into the list.
          */
-        me.addItems(me.config.items || []);
-        delete me.config.items;
-        
-        me.callParent(arguments);
-        
-        /**
+         //me.addItems(me.config.items || []);
+         delete me.config.items;
+                
+         me.callParent(arguments);
+                
+         /**
          *  This stores the instances of the components created.
          *  TODO: Support 'autoDestroy'.
          *  @private
@@ -164,37 +181,42 @@ Ext.define('Ext.ux.slidenavigation.View', {
         this.callParent();
         
         this.addCls('x-slidenavigation');
-        
-        this.list = this.createNavigationList();
-        this.container = this.createContainer();
+       
+        this.setList (this.createNavigationList());
+        this.setContainer (this.createContainer());
         
         this.add([
-            this.list,
-            this.container
+            this.getList(),
+            this.getContainer()
         ]);
-        
+     
         // TODO: Make this optional, perhaps by defining
         // "selected: true" in the items list
-        this.list.select(0);
+        var firstitem = this.getList().getStore().getAt(0);
+        if ( firstitem.isLeaf() ) {
+            this.getList().select(0);
+        } else {
+            firstitem.expand();
+            this.getList().select(1);
+        }
     },
-    
-    /**
-     *  Adds an array of items (or a single item) into the list.
-     */
-    addItems: function(items) {
-        var me = this,
-            items = Ext.isArray(items) ? items : [items],
-            groups = me.config.groups;
-        
-        Ext.each(items, function(item, index) {
-            if (!Ext.isDefined(item.index)) {
+
+    assignIndexes: function (_items) {
+       var me = this,
+           index,
+           items = Ext.isArray(_items) ? _items : [_items];
+
+       Ext.each(items, function(item, index) {
+           if ( Ext.isDefined(item.leaf) && 
+                !Ext.isDefined(item.index)) { 
                 item.index = me._indexCount;
                 me._indexCount++;
-            }
-            me.store.add(item);
-        });
-    },
-    
+           } else {
+               me.assignIndexes ( item.items );
+           }
+       });
+    }, 
+
     /**
      *  Creates a button that can toggle the navigation menu.  For an example
      *  config, see ``slideButtonDefaults``.
@@ -211,14 +233,44 @@ Ext.define('Ext.ux.slidenavigation.View', {
     },
     
     /**
-     * Called when an item in the list is tapped.
+     * Called when an list item has been tapped
+     * @param {Ext.List} list The subList the item is on
+     * @param {Number} index The id of the item tapped
+     * @param {Ext.Element} target The list item tapped
+     * @param {Ext.data.Record} record The record whichw as tapped
+     * @param {Ext.event.Event} e The event
      */
+    onItemTap: function(list, index, target, record, e) {
+        var me = this,
+            store = list.getStore(),
+            item = store.getAt(index);
+
+        if (!item.isLeaf()) {
+            if (item.isExpanded()) {
+                item.collapse();
+            } else {
+                item.expand(false, this.onExpand, this);
+            }
+        }
+    },
+
+    overrideClose: false,
+    prevsel: null,
+
     onSelect: function(list, item, eOpts) {
         var me = this,
             store = list.getStore(),
-            index = item.raw.index,
-            container = me.container;
-        
+            container = me.getContainer(),
+            index = item.raw.index;
+
+        if ( index == undefined ) {
+            list.deselect(item);
+            this.overrideClose = true;
+            list.select ( this.prevsel );
+            return; // not a leaf
+        }
+        this.prevsel = item;
+
         if (me._cache[index] == undefined) {
             //container = this.down('container[cls="x-slidenavigation-container"]');
             
@@ -227,7 +279,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
             if (Ext.isFunction(item.raw.handler)) {
                 me._cache[index] = item.raw.handler;
             } else {
-                me._cache[index] = container.add(Ext.merge({}, me.config.defaults, item.raw));
+                me._cache[index] = container.add(Ext.merge(me.config.defaults, item.raw));
 
                 // Add a button for controlling the slide, if desired
                 if ((item.raw.slideButton || false)) {
@@ -243,7 +295,11 @@ Ext.define('Ext.ux.slidenavigation.View', {
         }
         
         if (this.config.closeOnSelect) {
-            this.closeContainer(this.config.selectSlideDuration);
+            if (this.overrideClose) {
+                this.overrideClose = false;
+            } else {
+                this.closeContainer(this.config.selectSlideDuration);
+            }
         }
     },
     
@@ -295,28 +351,22 @@ Ext.define('Ext.ux.slidenavigation.View', {
      * already, and returns the name of the model for use in the store.
      */
     getModel: function() {
-        var model = 'SlideNavigationPanelItem',
-            groups = this.config.groups;
+        var model = 'SlideNavigationPanelItem';
         
         if (!Ext.ModelManager.get(model)) {
             Ext.define(model, {
                 extend: 'Ext.data.Model',
                 config: {
-                    idProperty: 'index',
+                   // idProperty: 'index',
                     fields: [
-                        'index', 'title', 'group',
+                        'index',
                         {
-                            name: 'order',
-                            defaultValue: 1
-                        },{
-                            name: 'groupOrder',
-                            convert: function(value, record) {
-                                // By default we group and order by group name.
-                                group = record.get('group');
-                                return groups[group] || group;
-                            }
-                        }
-                    ]
+                            name: 'title',
+                            type: 'string'
+                        },
+                        'slideButton', 
+                        'handler', 
+                    ] 
                 }
             });
         }
@@ -337,7 +387,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
      */
     openContainer: function(duration) {
         var duration = duration || this.config.slideDuration;
-        this.container.addCls('open');
+        this.getContainer().addCls('open');
         this.moveContainer(this.config.list.width, duration);
     },
     
@@ -359,7 +409,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
      */
     moveContainer: function(offsetX, duration) {
         var duration = duration || this.config.slideDuration,
-            draggable = this.container.draggableBehavior.draggable;
+            draggable = this.getContainer().draggableBehavior.draggable;
         
         draggable.setOffset(offsetX, 0, {
             duration: duration
@@ -371,7 +421,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
      *  computed value based off the current offset position of the container.
      */
     isClosed: function() {
-        return (this.container.draggableBehavior.draggable.offset.x == 0);
+        return (this.getContainer().draggableBehavior.draggable.offset.x == 0);
     },
     
     /**
@@ -388,19 +438,19 @@ Ext.define('Ext.ux.slidenavigation.View', {
          */
          
         if (closed) {
-            this.container.removeCls('open');
+            this.getContainer().removeCls('open');
             
             /*
-            Ext.each(this.container.getActiveItem().getItems().items, function(item) {
+            Ext.each(this.getContainer().getActiveItem().getItems().items, function(item) {
                 if (item.maskOnSlide) {
                     item.setMasked(false);
                 }
             });
             */
         } else {
-            this.container.addCls('open');
+            this.getContainer().addCls('open');
             /*
-            Ext.each(this.container.getActiveItem().getItems().items, function(item) {
+            Ext.each(this.getContainer().getActiveItem().getItems().items, function(item) {
                 if (item.maskOnSlide) {
                     item.setMasked(true);
                 }
@@ -414,17 +464,38 @@ Ext.define('Ext.ux.slidenavigation.View', {
      * the navigation items.
      */
     createNavigationList: function(store) {
-        return Ext.create('Ext.dataview.List', Ext.merge({}, this.config.list, {
-            store: this.store,
+        var itemTpl = new Ext.XTemplate(
+                '<tpl if="leaf">',
+                    '<div class="accordion-list-content">',
+                        this.getContentItemTpl(),
+                    '</div>',
+                '<tpl else>',
+                    '<div class="accordion-list-header">',
+                        this.getHeaderItemTpl(),
+                    '</div>',
+                '</tpl>',
+                {
+                    isExpanded: function(values) {
+                        return values.expanded;
+                    }
+                });
+
+        var list = Ext.create('Ext.dataview.List', Ext.merge({}, this.config.list, {
             docked: 'left',
             cls: 'x-slidenavigation-list',
             style: 'position: absolute; top: 0; left: 0; height: 100%;' +
-                   'width: 100% !important; z-index: 2',
+                   'width: 100% !important; z-index: 5',
+            itemTpl: itemTpl,
             listeners: {
                 select: this.onSelect,
                 scope: this
             }
         }));
+
+        list.on('itemtap', this.onItemTap, this);
+        list.setStore( this.store );
+        list.setScrollable (true);
+        return list;
     },
     
     /**
@@ -437,6 +508,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
             docked: 'left',
             cls: 'x-slidenavigation-container',
             style: 'width: 100%; height: 100%; position: absolute; opacity: 1; z-index: 5',
+            docked: 'left',
             layout: 'card',
             draggable: {
                 direction: 'horizontal',
@@ -474,10 +546,60 @@ Ext.define('Ext.ux.slidenavigation.View', {
      *  selected item).
      *
      */
-    getActiveItem: function() {
-        var selection = this.list.getSelection();
+/*    getActiveItem: function() {
+        var selection = this.getList().getSelection();
         if (selection) {
             return selection[0];
         }
     }
+*/
+
+    /**
+     * @event onExpand
+     * Fires when a node is tapped on
+     */
+    onExpand: function() {
+        if (!this.getUseAnimation()) {
+            return;
+        }
+
+        var targets = this.getTargetItems();
+
+        for (var i = 0; i < targets.length; i++) {
+            Ext.Anim.run(Ext.get(targets[i]), 'fade', {
+                duration: i === 0 ? 150 : i * 300
+            });
+        }
+    },
+
+    /**
+     * @private
+     */
+    getTargetItems: function() {
+        var header = Ext.query('.' + this.getCls() + ' .x-dataview-item'),
+            isTarget = false,
+            targets = [],
+            elem;
+
+        for (var i = 0; i < header.length; i++) {
+            elem = Ext.get(header[i]);
+
+            if (elem.hasCls('x-item-selected')) {
+                isTarget = true;
+                continue;
+            }
+
+            if (isTarget) {
+                var content = elem.down('.accordion-list-content');
+                if (content) {
+                    targets.push(content);
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return targets;
+    }
+
 });
