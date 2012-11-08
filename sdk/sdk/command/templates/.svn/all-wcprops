@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/command/templates
+END
+cache.manifest.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/command/templates/cache.manifest.tpl
+END
+modules.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/command/templates/modules.tpl
+END
+action.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/command/templates/action.tpl
+END
+actions.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/command/templates/actions.tpl
+END

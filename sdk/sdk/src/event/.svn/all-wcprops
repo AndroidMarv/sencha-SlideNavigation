@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/event
+END
+Dispatcher.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/event/Dispatcher.js
+END
+ListenerStack.js
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/event/ListenerStack.js
+END
+Dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/event/Dom.js
+END
+Event.js
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/event/Event.js
+END
+Touch.js
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/event/Touch.js
+END
+Controller.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/event/Controller.js
+END
