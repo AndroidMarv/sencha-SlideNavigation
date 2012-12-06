@@ -1,5 +1,5 @@
 Ext.define("SlideNavigationExample.view.Main", {
-    extend: 'Ext.ux.slidenavigation.View',
+    extend: 'Ext.ux.slidenavigation.collapsible.View',
     
     requires: [
         'Ext.Container',
@@ -32,7 +32,7 @@ Ext.define("SlideNavigationExample.view.Main", {
          */
         list: {
             maxDrag: 400,
-            width: 200,
+            width: 300,
             items: [{
                 xtype: 'toolbar',
                 docked: 'top',

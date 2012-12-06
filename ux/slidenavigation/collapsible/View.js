@@ -1,11 +1,11 @@
 /**
- *  {@link Ext.ux.slidenavigation.View} is a subclass of {@link Ext.Container}
+ *  {@link Ext.ux.slidenavigation.collapsible.View} is a subclass of {@link Ext.Container}
  *  that provides a sliding main view with an underlying navigation list.  The
  *  concept was inspired by Facebook's mobile app.
  *
  *  @author Weston Nielson <wnielson@github>
  */
-Ext.define('Ext.ux.slidenavigation.View', {
+Ext.define('Ext.ux.slidenavigation.collapsible.View', {
     extend: 'Ext.Container',
     
     requires: [
@@ -19,7 +19,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
         'Ext.dataview.List',
     ],
     
-    xtype: 'slidenavigationview',
+    xtype: 'slidenavigationviewcollapsible',
     
     config: {
         /**
