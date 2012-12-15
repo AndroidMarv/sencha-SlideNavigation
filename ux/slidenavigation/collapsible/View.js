@@ -102,7 +102,7 @@ Ext.define('Ext.ux.slidenavigation.collapsible.View', {
                     ' style="margin-right:0.4em; background-color: #cacaca !important; background-image: none !important;"></span>',
                     '<span style="color:#00bbe8;">{title}</span>',
                   '</span>',
-                '<tpl>',
+                '</tpl>',
             '</div>'
         ].join(''),
 

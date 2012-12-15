@@ -2,9 +2,9 @@ Slide Navigation
 ================
 
 This is an attempt to make a Facebook-like navigation panel for Sencha Touch 2,
-however with a difference that the menu items are drowdown.
+however with a difference that the menu items are dropdown.
 
-We have to NOUT yet uploaded a demo.
+We have to NOT yet uploaded a demo.
 When you try it on your system, navigation menu in the example, "flick" the 
 toolbar (at the top) to the right; the opposite action can be used to close 
 the menu.
