@@ -58,9 +58,3 @@ So far this has been tested on:
   * Android 4.0.3
   * Android 3.2 (tablet)
   * Android 2.3.3
-
-Documentation
--------------
-
-Please find it in Wiki.
-	
