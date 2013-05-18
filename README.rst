@@ -4,7 +4,8 @@ Slide Navigation
 This is an attempt to make a Facebook-like navigation panel for Sencha Touch 2,
 however with a difference that the menu items are dropdown.
 
-We have to NOT yet uploaded a demo.
+Demo link: http://flipflopapp.github.io/sencha-SlideNavigation/index.html 
+
 When you try it on your system, navigation menu in the example, "flick" the 
 toolbar (at the top) to the right; the opposite action can be used to close 
 the menu.
@@ -30,8 +31,8 @@ the other 'Ext.ux' components.
 
 Then in whatever component you wish to use the view, add::
 
-    requires = [
-        'Ext.ux.slidenavigation.View',
+    requires: [
+        'Ext.ux.slidenavigation.collapsible.View',
     ]
 
 or simply extend the 'Ext.ux.slidenavigation.View' class.
