@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/data/association
+END
+Association.js
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/data/association/Association.js
+END
+BelongsTo.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/data/association/BelongsTo.js
+END
+HasOne.js
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/data/association/HasOne.js
+END
+HasMany.js
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/data/association/HasMany.js
+END

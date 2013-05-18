@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/mixin
+END
+Mixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/mixin/Mixin.js
+END
+Observable.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/mixin/Observable.js
+END
+Filterable.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/mixin/Filterable.js
+END
+Traversable.js
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/mixin/Traversable.js
+END
+Sortable.js
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/mixin/Sortable.js
+END
+Identifiable.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/mixin/Identifiable.js
+END
+Selectable.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/happco/!svn/ver/192/Xcode/staging/NavMenuCollapsible/sdk/src/mixin/Selectable.js
+END
